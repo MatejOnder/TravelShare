@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">TravelShare</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_main_menu">TravelShare</string>
+    <string name="title_activity_main_navigation">TravelShare</string>
+    <string name="title_news">News Feed</string>
+    <string name="title_myTrips">My Trips</string>
+    <string name="title_recordTrip">Record Trip</string>
+    <string name="title_profile">Profile</string>
+    <string name="text_recordTrip">Record Trip</string>
+</resources>
