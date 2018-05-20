@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="ear@localhost" uuid="0aceafb3-84cd-497e-a29d-cdb4c250aada">
+      <database-info product="PostgreSQL" version="9.6.1" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.1.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>ear</user-name>
+      <introspection-schemas>ear:public</introspection-schemas>
+    </data-source>
+  </component>
+</project>

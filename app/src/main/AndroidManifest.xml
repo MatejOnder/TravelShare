@@ -13,6 +13,13 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.CAMERA"
+        android:required="true" />
+
+    <uses-feature android:name="android.hardware.camera2.full" />
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -35,10 +42,38 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCDFD_5TnIRIqQtNwKVYv28dRJDPGnAkPY" />
 
-
         <activity
             android:name=".MainNavigation"
-            android:label="@string/title_activity_main_navigation"></activity>
+            android:label="@string/title_activity_main_navigation" />
+        <activity
+            android:name=".Register"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.travelshare.travelshare.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".CameraActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_camera"
+            android:parentActivityName=".MainNavigation"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.travelshare.travelshare.MainNavigation" />
+        </activity>
+        <activity
+            android:name=".PhotoDisplayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_photo_display"
+            android:parentActivityName=".MainNavigation"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.travelshare.travelshare.MainNavigation" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="ear@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.7">
+    <root id="1"/>
+    <database id="2" parent="1" name="ear">
+      <ObjectId>26107</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <database id="3" parent="1" name="postgres">
+      <ObjectId>12401</ObjectId>
+    </database>
+    <database id="4" parent="1" name="belbin">
+      <ObjectId>17912</ObjectId>
+    </database>
+    <role id="5" parent="1" name="ear">
+      <ObjectId>26106</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="6" parent="1" name="pg_signal_backend">
+      <ObjectId>4200</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="7" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+      <BypassRls>1</BypassRls>
+    </role>
+    <schema id="8" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2018-01-02.18:43:24.631</IntrospectionTimestamp>
+      <IntrospectionStateNumber>2053</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="9" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="10" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="11" parent="2" name="pg_temp_1">
+      <ObjectId>11848</ObjectId>
+    </schema>
+    <schema id="12" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11849</ObjectId>
+    </schema>
+    <schema id="13" parent="2" name="information_schema">
+      <ObjectId>12113</ObjectId>
+    </schema>
+    <table id="14" parent="8" name="ad">
+      <ObjectId>26108</ObjectId>
+      <StateNumber>2050</StateNumber>
+    </table>
+    <table id="15" parent="8" name="ad_ed">
+      <ObjectId>26144</ObjectId>
+      <StateNumber>2048</StateNumber>
+    </table>
+    <table id="16" parent="8" name="ad_specialization">
+      <ObjectId>26149</ObjectId>
+      <StateNumber>2050</StateNumber>
+    </table>
+    <table id="17" parent="8" name="contact">
+      <ObjectId>26116</ObjectId>
+      <StateNumber>2046</StateNumber>
+    </table>
+    <table id="18" parent="8" name="education">
+      <ObjectId>26124</ObjectId>
+      <StateNumber>2047</StateNumber>
+    </table>
+    <table id="19" parent="8" name="sequence">
+      <ObjectId>26204</ObjectId>
+      <StateNumber>2053</StateNumber>
+    </table>
+    <table id="20" parent="8" name="specialization">
+      <ObjectId>26129</ObjectId>
+      <StateNumber>2051</StateNumber>
+    </table>
+    <table id="21" parent="8" name="users">
+      <ObjectId>26134</ObjectId>
+      <StateNumber>2052</StateNumber>
+    </table>
+    <table id="22" parent="8" name="usr_spec">
+      <ObjectId>26154</ObjectId>
+      <StateNumber>2052</StateNumber>
+    </table>
+    <column id="23" parent="14" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2036</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="24" parent="14" name="dtype">
+      <Position>2</Position>
+      <DataType>varchar(31)|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="25" parent="14" name="advertised">
+      <Position>3</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="26" parent="14" name="creationdate">
+      <Position>4</Position>
+      <DataType>timestamp|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="27" parent="14" name="user_id">
+      <Position>5</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="28" parent="14" name="demdescription">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="29" parent="14" name="demtitle">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="30" parent="14" name="offdescription">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="31" parent="14" name="requirementdescription">
+      <Position>9</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="32" parent="14" name="salary">
+      <Position>10</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="33" parent="14" name="offtitle">
+      <Position>11</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2036</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="34" parent="14" name="ad_pkey">
+      <ObjectId>26114</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="35" parent="14" name="ad_pkey">
+      <ObjectId>26115</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>ad_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="36" parent="14" name="fk_ad_user_id">
+      <ObjectId>26159</ObjectId>
+      <ColNames>user_id</ColNames>
+      <RefTableId>26134</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>users</RefTableName>
+      <RefKeyName>users_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="37" parent="15" name="ad_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2041</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="38" parent="15" name="ed_id">
+      <Position>2</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2041</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="39" parent="15" name="ad_ed_pkey">
+      <ObjectId>26147</ObjectId>
+      <ColNames>ad_id
+ed_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="40" parent="15" name="ad_ed_pkey">
+      <ObjectId>26148</ObjectId>
+      <ColNames>ad_id
+ed_id</ColNames>
+      <UnderlyingIndexName>ad_ed_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="41" parent="15" name="fk_ad_ed_ad_id">
+      <ObjectId>26179</ObjectId>
+      <ColNames>ad_id</ColNames>
+      <RefTableId>26108</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>ad</RefTableName>
+      <RefKeyName>ad_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="42" parent="15" name="fk_ad_ed_ed_id">
+      <ObjectId>26174</ObjectId>
+      <ColNames>ed_id</ColNames>
+      <RefTableId>26124</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>education</RefTableName>
+      <RefKeyName>education_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="43" parent="16" name="adcollection_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2042</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="44" parent="16" name="specializations_id">
+      <Position>2</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2042</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="45" parent="16" name="ad_specialization_pkey">
+      <ObjectId>26152</ObjectId>
+      <ColNames>adcollection_id
+specializations_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="46" parent="16" name="ad_specialization_pkey">
+      <ObjectId>26153</ObjectId>
+      <ColNames>adcollection_id
+specializations_id</ColNames>
+      <UnderlyingIndexName>ad_specialization_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="47" parent="16" name="fk_ad_specialization_adcollection_id">
+      <ObjectId>26189</ObjectId>
+      <ColNames>adcollection_id</ColNames>
+      <RefTableId>26108</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>ad</RefTableName>
+      <RefKeyName>ad_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="48" parent="16" name="fk_ad_specialization_specializations_id">
+      <ObjectId>26184</ObjectId>
+      <ColNames>specializations_id</ColNames>
+      <RefTableId>26129</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>specialization</RefTableName>
+      <RefKeyName>specialization_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="49" parent="17" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2037</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="50" parent="17" name="email">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2037</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="51" parent="17" name="phone">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2037</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="52" parent="17" name="contact_pkey">
+      <ObjectId>26122</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="53" parent="17" name="contact_pkey">
+      <ObjectId>26123</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>contact_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="54" parent="18" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2038</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="55" parent="18" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2038</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="56" parent="18" name="education_pkey">
+      <ObjectId>26127</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="57" parent="18" name="education_pkey">
+      <ObjectId>26128</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>education_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="58" parent="19" name="seq_name">
+      <Position>1</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2053</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="59" parent="19" name="seq_count">
+      <Position>2</Position>
+      <DataType>numeric(38)|0</DataType>
+      <StateNumber>2053</StateNumber>
+      <TypeId>1700</TypeId>
+    </column>
+    <index id="60" parent="19" name="sequence_pkey">
+      <ObjectId>26207</ObjectId>
+      <ColNames>seq_name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="61" parent="19" name="sequence_pkey">
+      <ObjectId>26208</ObjectId>
+      <ColNames>seq_name</ColNames>
+      <UnderlyingIndexName>sequence_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="62" parent="20" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2039</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="63" parent="20" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2039</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="64" parent="20" name="specialization_pkey">
+      <ObjectId>26132</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="65" parent="20" name="specialization_pkey">
+      <ObjectId>26133</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>specialization_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="66" parent="21" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2040</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="67" parent="21" name="lastname">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2040</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="68" parent="21" name="login">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2040</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="69" parent="21" name="name">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2040</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="70" parent="21" name="password">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2040</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="71" parent="21" name="role">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>2040</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="72" parent="21" name="education_id">
+      <Position>7</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>2040</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="73" parent="21" name="con_id">
+      <Position>8</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>2040</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="74" parent="21" name="users_pkey">
+      <ObjectId>26140</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="75" parent="21" name="users_con_id_key">
+      <ObjectId>26142</ObjectId>
+      <ColNames>con_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="76" parent="21" name="users_pkey">
+      <ObjectId>26141</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <key id="77" parent="21" name="users_con_id_key">
+      <ObjectId>26143</ObjectId>
+      <ColNames>con_id</ColNames>
+      <UnderlyingIndexName>users_con_id_key</UnderlyingIndexName>
+    </key>
+    <foreign-key id="78" parent="21" name="fk_users_education_id">
+      <ObjectId>26164</ObjectId>
+      <ColNames>education_id</ColNames>
+      <RefTableId>26124</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>education</RefTableName>
+      <RefKeyName>education_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="79" parent="21" name="fk_users_con_id">
+      <ObjectId>26169</ObjectId>
+      <ColNames>con_id</ColNames>
+      <RefTableId>26116</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>contact</RefTableName>
+      <RefKeyName>contact_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="80" parent="22" name="spec_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2043</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="81" parent="22" name="usr_id">
+      <Position>2</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>2043</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="82" parent="22" name="usr_spec_pkey">
+      <ObjectId>26157</ObjectId>
+      <ColNames>spec_id
+usr_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="83" parent="22" name="usr_spec_pkey">
+      <ObjectId>26158</ObjectId>
+      <ColNames>spec_id
+usr_id</ColNames>
+      <UnderlyingIndexName>usr_spec_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="84" parent="22" name="fk_usr_spec_spec_id">
+      <ObjectId>26194</ObjectId>
+      <ColNames>spec_id</ColNames>
+      <RefTableId>26129</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>specialization</RefTableName>
+      <RefKeyName>specialization_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="85" parent="22" name="fk_usr_spec_usr_id">
+      <ObjectId>26199</ObjectId>
+      <ColNames>usr_id</ColNames>
+      <RefTableId>26134</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>users</RefTableName>
+      <RefKeyName>users_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+  </database-model>
+</dataSource>

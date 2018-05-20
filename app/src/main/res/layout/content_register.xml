@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Register"
+    tools:showIn="@layout/activity_register">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="TravelShare"
+        android:textColor="@android:color/holo_purple"
+        android:textSize="48sp" />
+
+    <ProgressBar
+        android:id="@+id/registerProgress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="180dp" />
+
+    <ScrollView
+        android:id="@+id/register_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="110dp">
+
+        <LinearLayout
+            android:id="@+id/email_register_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="120dp"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:text="Register" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/emailRegister"
+                    android:layout_width="331dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="194dp"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/passwordRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:imeActionId="6"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/register_button_register"
+                android:layout_width="194dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/holo_blue_dark"
+                android:text="Register" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

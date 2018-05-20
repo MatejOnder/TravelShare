@@ -13,16 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/recordTripText"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:background="@android:drawable/alert_light_frame"
-        android:text="@string/text_recordTrip"
-        android:textSize="36sp" />
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
@@ -34,5 +24,176 @@
         app:menu="@menu/navigation">
 
     </android.support.design.widget.BottomNavigationView>
+
+    <RelativeLayout
+        android:id="@+id/RecordTripLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:visibility="visible">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="194dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/buttonStartTrip"
+            android:layout_alignParentStart="true"
+            android:background="#90ffffff">
+
+            <EditText
+                android:id="@+id/StartPoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Starting point"
+                android:imeActionId="6"
+                android:imeActionLabel="Starting point"
+                android:imeOptions="actionUnspecified"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="194dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/buttonStartTrip"
+            android:layout_alignParentEnd="true"
+            android:background="#95ffffff">
+
+            <EditText
+                android:id="@+id/EndPoint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="End point"
+                android:imeActionId="6"
+                android:imeActionLabel="End point"
+                android:imeOptions="actionUnspecified"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonStartTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="137dp"
+            android:text="START" />
+
+        <TextView
+            android:id="@+id/recordTripText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/alert_light_frame"
+            android:gravity="center"
+            android:text="@string/text_recordTrip"
+            android:textSize="36sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/NewsFeedLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/NewsFeedText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/alert_light_frame"
+            android:gravity="center"
+            android:text="News Feed"
+            android:textSize="36sp" />
+
+        <ScrollView
+            android:id="@+id/NewsFeed"
+            android:layout_width="match_parent"
+            android:layout_height="252dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="55dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/MyTripsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/recordTripText3"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/alert_light_frame"
+            android:gravity="center"
+            android:text="My Trips"
+            android:textSize="36sp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="247dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="57dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RecordingTripLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/recordTripText4"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@android:drawable/alert_light_frame"
+            android:gravity="center"
+            android:text="Recording Trip"
+            android:textSize="36sp" />
+
+        <ImageButton
+            android:id="@+id/cameraButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="129dp"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <Button
+            android:id="@+id/FinishTripButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="71dp"
+            android:text="Finish Trip" />
+    </RelativeLayout>
 
 </RelativeLayout>

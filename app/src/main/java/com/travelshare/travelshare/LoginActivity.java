@@ -1,12 +1,19 @@
 package com.travelshare.travelshare;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -20,6 +27,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,9 +37,23 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -44,18 +66,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private int REQUEST_PERMISSION_PHONE_STATE = 1;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private boolean mAuthTask = false;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -91,8 +106,34 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptRegister();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            showExplanation("Permission Needed", "You need internet access to use this application", Manifest.permission.INTERNET, REQUEST_PERMISSION_PHONE_STATE, this);
+        }
+    }
+
+    public void showExplanation(String title,
+                                String message,
+                                final String permission,
+                                final int permissionRequestCode, final Activity thisInContext) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ActivityCompat.requestPermissions(thisInContext, new String[]{permission}, permissionRequestCode);
+                    }
+                });
+        builder.create().show();
     }
 
     private void populateAutoComplete() {
@@ -101,6 +142,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    private void attemptRegister()
+    {
+        Intent registerPage = new Intent(LoginActivity.this, Register.class);
+        startActivity(registerPage);
     }
 
     private boolean mayRequestContacts() {
@@ -145,7 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
+        if (mAuthTask) {
             return;
         }
 
@@ -181,17 +228,84 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
+            mAuthTask = false;
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            Intent homepage = new Intent(LoginActivity.this, MainNavigation.class);
-            startActivity(homepage);
-            finish();
-            /*showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);*/
+            showProgress(true);
+            mAuthTask = true;
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(makeJsonObjReq());
         }
+    }
+
+    private JsonObjectRequest makeJsonObjReq() {
+        Map<String, String> postParam= new HashMap<String, String>();
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        postParam.put("email", email);
+        postParam.put("password", password);
+        final String TAG = "asdf";
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                "http://10.0.2.2:8080/rest/user/LoginApi", new JSONObject(postParam),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        SharedPreferences sp = getSharedPreferences("travelShare", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sp.edit();
+                        try {
+                            editor.putInt("userId", response.getInt("id"));
+                            editor.putString("userEmail", response.getString("email"));
+                            editor.putString("userPassword", response.getString("password"));
+                            editor.apply();
+                        } catch (org.json.JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        Intent homepage = new Intent(LoginActivity.this, MainNavigation.class);
+                        startActivity(homepage);
+                        finish();
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Context context = getApplicationContext();
+                CharSequence text = "Invalid login/password";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+
+
+
+        };
+
+        jsonObjReq.setTag(TAG);
+        // Adding request to request queue
+        return jsonObjReq;
+
+        // Cancelling request
+    /* if (queue!= null) {
+    queue.cancelAll(TAG);
+    } */
+
     }
 
     private boolean isEmailValid(String email) {
@@ -292,63 +406,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
     }
 }
 

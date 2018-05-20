@@ -20,4 +20,11 @@
     <string name="title_recordTrip">Record Trip</string>
     <string name="title_profile">Profile</string>
     <string name="text_recordTrip">Record Trip</string>
+    <string name="title_activity_register">Register</string>
+
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_photo_display">PhotoDisplayActivity</string>
 </resources>

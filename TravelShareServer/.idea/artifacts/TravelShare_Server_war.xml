@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="TravelShare Server:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="travelShareServer.war">
+      <element id="artifact" artifact-name="TravelShare Server:war exploded" />
+    </root>
+  </artifact>
+</component>
