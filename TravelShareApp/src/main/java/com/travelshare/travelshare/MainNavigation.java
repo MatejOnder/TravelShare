@@ -695,7 +695,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Context context = getApplicationContext();
-                CharSequence text = "Invalid login/password";
+                CharSequence text = "Error finishing trip";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -753,7 +753,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Context context = getApplicationContext();
-                CharSequence text = "Invalid login/password";
+                CharSequence text = "Error getting photos";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -817,7 +817,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
                 public void onErrorResponse(VolleyError error) {
                     VolleyLog.d(TAG, "Error: " + error.getMessage());
                     Context context = getApplicationContext();
-                    CharSequence text = "Invalid login/password";
+                    CharSequence text = "Error fetching current trip";
                     int duration = Toast.LENGTH_LONG;
 
                     Toast toast = Toast.makeText(context, text, duration);
@@ -899,7 +899,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Context context = getApplicationContext();
-                CharSequence text = "Invalid login/password";
+                CharSequence text = "Error creating trip";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);

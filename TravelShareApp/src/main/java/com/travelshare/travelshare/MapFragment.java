@@ -217,7 +217,7 @@ public class MapFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Context context = getActivity().getApplicationContext();
-                CharSequence text = "Invalid login/password";
+                CharSequence text = "Error fetching ID";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);

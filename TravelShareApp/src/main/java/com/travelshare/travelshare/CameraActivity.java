@@ -279,7 +279,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Context context = getApplicationContext();
-                CharSequence text = "Invalid login/password";
+                CharSequence text = "Error uploading photo to DB";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);
@@ -349,7 +349,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Context context = getApplicationContext();
-                CharSequence text = "Invalid login/password";
+                CharSequence text = "Error saving photo to server";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);

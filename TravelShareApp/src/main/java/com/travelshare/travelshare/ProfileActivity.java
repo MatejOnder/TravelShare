@@ -111,7 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
                 Context context = getApplicationContext();
-                CharSequence text = "Invalid login/password";
+                CharSequence text = "Error fetching user details";
                 int duration = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(context, text, duration);
