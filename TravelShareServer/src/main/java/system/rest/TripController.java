@@ -31,10 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.security.MessageDigest;
 
-/**
- *
- * @author Jan Richter
- */
+
 @RestController
 @RequestMapping("/trip")
 public class TripController{
