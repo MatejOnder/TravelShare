@@ -44,6 +44,24 @@ public class TripService {
         return  Trip;
     }
 
+    @Transactional(readOnly = true)
+    public List<TripEntity> findAllByUserId(int id) throws NoSuchElementException {
+        List<TripEntity> Trips = tripDao.findAllByUserId(id);
+        if(Trips == null){
+            throw  new NoSuchElementException();
+        }
+        return Trips;
+    }
+
+    @Transactional(readOnly = true)
+    public List<TripEntity> findAllByUserFriendsId(int id) throws NoSuchElementException {
+        List<TripEntity> Trips = tripDao.findAllByUserFriendsId(id);
+        if(Trips == null){
+            throw  new NoSuchElementException();
+        }
+        return Trips;
+    }
+
     /*@Transactional(readOnly = true)
     public TripEntity findByEmail(String email) throws NoSuchElementException {
         TripEntity Trip = tripDao.findByEmail(email);

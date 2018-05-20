@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -18,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -27,9 +29,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +60,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -277,13 +285,19 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
     private void activateNewsFeed()
     {
         muteTabs();
+        fragment.clearMap();
         newsFeedView.setVisibility(View.VISIBLE);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(getTripsByUserFriends());
     }
 
     private void activateMyTrips()
     {
         muteTabs();
+        fragment.clearMap();
         myTripsView.setVisibility(View.VISIBLE);
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(getTripsByUser());
     }
 
     private void activateRecordTrip()
@@ -291,13 +305,16 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
         muteTabs();
         SharedPreferences sp = getSharedPreferences("travelShare", Context.MODE_PRIVATE);
         boolean isRecording = sp.getBoolean("isRecording", false);
+        fragment.clearMap();
         if(isRecording)
         {
             recordingTripView.setVisibility(View.VISIBLE);
+            zoomToTrip();
         }
         else
         {
             recordTripView.setVisibility(View.VISIBLE);
+            fragment.centerOnUser();
         }
     }
 
@@ -323,6 +340,339 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(makeJsonObjReq());
         }
+    }
+
+    private void displayTripInList(final JSONObject j, LinearLayout scrollView)
+    {
+        fragment.clearMap();
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+        RelativeLayout rl = new RelativeLayout(this);
+        rl.setBackgroundColor(0xFFAAAAAA);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        params.setMargins(0, 0, 0, 10);
+        rl.setLayoutParams(params);
+        rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayTrip(j);
+            }
+        });
+
+        try {
+            RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            LinearLayout tripStartLayout = new LinearLayout(this);
+            int startId = View.generateViewId();
+            tripStartLayout.setId(startId);
+            TextView tripStart = (TextView) getLayoutInflater().inflate(R.layout.fragment_tripinfo, null);
+            addresses = geocoder.getFromLocation(j.getDouble("startlat"), j.getDouble("startlon"), 1);
+            tripStart.setText("Starting point: " +addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+            tripStartLayout.addView(tripStart);
+            rl.addView(tripStartLayout);
+
+            LinearLayout tripEndLayout = new LinearLayout(this);
+            int endId = View.generateViewId();
+            tripEndLayout.setId(endId);
+            TextView tripEnd = (TextView) getLayoutInflater().inflate(R.layout.fragment_tripinfo, null);
+            addresses = geocoder.getFromLocation(j.getDouble("endlat"), j.getDouble("endlon"), 1);
+            tripEnd.setText("Ending point: " +addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+            tripEndLayout.addView(tripEnd);
+            newParams.addRule(RelativeLayout.BELOW, startId);
+            rl.addView(tripEndLayout, newParams);
+
+            newParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            LinearLayout photoCountLayout = new LinearLayout(this);
+            TextView photoCount = (TextView) getLayoutInflater().inflate(R.layout.fragment_tripinfo, null);
+            photoCount.setText("Photos: "+j.getJSONArray("photosById").length());
+            photoCountLayout.addView(photoCount);
+            newParams.addRule(RelativeLayout.BELOW, endId);
+            newParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            rl.addView(photoCountLayout, newParams);
+
+            scrollView.addView(rl);
+        } catch (org.json.JSONException e)
+        {
+            e.printStackTrace();
+        } catch (java.io.IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void displayTrip(JSONObject j)
+    {
+        fragment.clearMap();
+        LatLng startPoint;
+        LatLng endPoint;
+        Map<LatLng, Integer> photos = new HashMap<>();
+
+        try {
+            startPoint = new LatLng(j.getDouble("startlat"), j.getDouble("startlon"));
+            endPoint = new LatLng(j.getDouble("endlat"), j.getDouble("endlon"));
+
+            JSONArray photoArr = j.getJSONArray("photosById");
+            for(int i = 0; i < photoArr.length(); i++)
+            {
+                JSONObject p = photoArr.getJSONObject(i);
+                photos.put(new LatLng(p.getDouble("latitude"), p.getDouble("longitude")), p.getInt("id"));
+            }
+
+            fragment.DrawMarker(startPoint, "Start", true, BitmapDescriptorFactory.HUE_GREEN);
+            fragment.DrawMarker(endPoint, "End", false, BitmapDescriptorFactory.HUE_RED);
+
+            for(LatLng l: photos.keySet())
+            {
+                int id = photos.get(l);
+                fragment.DrawMarkerWithId(l, id, "Photo", false, BitmapDescriptorFactory.HUE_BLUE);
+            }
+        } catch (org.json.JSONException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void displayUsersTrips(JSONArray response)
+    {
+        View scrollView = findViewById(R.id.LinearLayoutMyTrips);
+        if(((LinearLayout) scrollView).getChildCount() > 0)
+        {
+            ((LinearLayout) scrollView).removeAllViews();
+        }
+        for(int i = 0; i < response.length(); i++)
+        {
+            try {
+                JSONObject j = (JSONObject) response.get(i);
+                displayTripInList(j, (LinearLayout) scrollView);
+
+            } catch(org.json.JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void displayTripInFriendList(final JSONObject j, LinearLayout scrollView)
+    {
+        fragment.clearMap();
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+        RelativeLayout rl = new RelativeLayout(this);
+        rl.setBackgroundColor(0xFFAAAAAA);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        params.setMargins(0, 0, 0, 10);
+        rl.setLayoutParams(params);
+        rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    displayTrip(j.getJSONObject("t"));
+                } catch (org.json.JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        try {
+            RelativeLayout.LayoutParams newParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            LinearLayout tripStartLayout = new LinearLayout(this);
+            int startId = View.generateViewId();
+            tripStartLayout.setId(startId);
+            TextView tripStart = (TextView) getLayoutInflater().inflate(R.layout.fragment_tripinfo, null);
+            addresses = geocoder.getFromLocation(j.getJSONObject("t").getDouble("startlat"), j.getJSONObject("t").getDouble("startlon"), 1);
+            tripStart.setText("Starting point: " +addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+            tripStartLayout.addView(tripStart);
+            rl.addView(tripStartLayout);
+
+            LinearLayout tripEndLayout = new LinearLayout(this);
+            int endId = View.generateViewId();
+            tripEndLayout.setId(endId);
+            TextView tripEnd = (TextView) getLayoutInflater().inflate(R.layout.fragment_tripinfo, null);
+            addresses = geocoder.getFromLocation(j.getJSONObject("t").getDouble("endlat"), j.getJSONObject("t").getDouble("endlon"), 1);
+            tripEnd.setText("Ending point: " +addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+            tripEndLayout.addView(tripEnd);
+            newParams.addRule(RelativeLayout.BELOW, startId);
+            rl.addView(tripEndLayout, newParams);
+
+            newParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            LinearLayout photoCountLayout = new LinearLayout(this);
+            int photoId = View.generateViewId();
+            photoCountLayout.setId(photoId);
+            TextView photoCount = (TextView) getLayoutInflater().inflate(R.layout.fragment_tripinfo, null);
+            photoCount.setText("Photos: "+j.getJSONObject("t").getJSONArray("photosById").length());
+            photoCountLayout.addView(photoCount);
+            newParams.addRule(RelativeLayout.BELOW, endId);
+            newParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            rl.addView(photoCountLayout, newParams);
+
+            newParams = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+
+            LinearLayout userEmailLayout = new LinearLayout(this);
+            TextView userEmail = (TextView) getLayoutInflater().inflate(R.layout.fragment_tripinfo, null);
+            userEmail.setText("User: "+j.getJSONObject("u").getString("email"));
+            userEmailLayout.addView(userEmail);
+            newParams.addRule(RelativeLayout.BELOW, photoId);
+            newParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            rl.addView(userEmailLayout, newParams);
+
+            scrollView.addView(rl);
+        } catch (org.json.JSONException e)
+        {
+            e.printStackTrace();
+        } catch (java.io.IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void displayUsersFriendsTrips(JSONArray response)
+    {
+        View scrollView = findViewById(R.id.LinearLayoutNewsFeed);
+        if(((LinearLayout) scrollView).getChildCount() > 0)
+        {
+            ((LinearLayout) scrollView).removeAllViews();
+        }
+        for(int i = 0; i < response.length(); i++)
+        {
+            try {
+                JSONObject j = (JSONObject) response.get(i);
+                displayTripInFriendList(j, (LinearLayout) scrollView);
+            } catch(org.json.JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private JsonArrayRequest getTripsByUserFriends(){
+        SharedPreferences sp = getSharedPreferences("travelShare", Context.MODE_PRIVATE);
+        JSONObject toSend = new JSONObject();
+        int userId = sp.getInt("userId", 0);
+        final String TAG = "asdf";
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                "http://10.0.2.2:8080/rest/trip/findAllByFriends/"+userId, null,
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        displayUsersFriendsTrips(response);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Context context = getApplicationContext();
+                CharSequence text = "You currently don't have any finished trips!";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+
+
+
+        };
+
+        jsonObjReq.setTag(TAG);
+        // Adding request to request queue
+        return jsonObjReq;
+
+        // Cancelling request
+    /* if (queue!= null) {
+    queue.cancelAll(TAG);
+    } */
+
+    }
+
+    private JsonArrayRequest getTripsByUser(){
+        SharedPreferences sp = getSharedPreferences("travelShare", Context.MODE_PRIVATE);
+        JSONObject toSend = new JSONObject();
+        int userId = sp.getInt("userId", 0);
+        final String TAG = "asdf";
+
+        JsonArrayRequest jsonObjReq = new JsonArrayRequest(Request.Method.GET,
+                "http://10.0.2.2:8080/rest/trip/findAll/"+userId, null,
+                new Response.Listener<JSONArray>() {
+
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        displayUsersTrips(response);
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                Context context = getApplicationContext();
+                CharSequence text = "You currently don't have any finished trips!";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+            }
+        }) {
+
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+
+
+
+        };
+
+        jsonObjReq.setTag(TAG);
+        // Adding request to request queue
+        return jsonObjReq;
+
+        // Cancelling request
+    /* if (queue!= null) {
+    queue.cancelAll(TAG);
+    } */
+
     }
 
     private JsonObjectRequest finishCurrentTrip(){
@@ -584,7 +934,9 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
 
     private void activateProfile()
     {
-
+        Intent activityPage = new Intent(MainNavigation.this, ProfileActivity.class);
+        startActivity(activityPage);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
     private boolean checkAddressValid()

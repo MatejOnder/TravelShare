@@ -3,19 +3,16 @@ package com.travelshare.travelshare;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -36,7 +33,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Register extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class RegisterActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private boolean mAuthTask = false;
     private AutoCompleteTextView mEmailView;
@@ -99,7 +96,7 @@ public class Register extends AppCompatActivity implements LoaderManager.LoaderC
 
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
-                        Intent homepage = new Intent(Register.this, LoginActivity.class);
+                        Intent homepage = new Intent(RegisterActivity.this, LoginActivity.class);
                         startActivity(homepage);
                         finish();
                     }
@@ -114,7 +111,7 @@ public class Register extends AppCompatActivity implements LoaderManager.LoaderC
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-                Intent homepage = new Intent(Register.this, LoginActivity.class);
+                Intent homepage = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(homepage);
                 finish();
             }

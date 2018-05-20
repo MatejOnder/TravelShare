@@ -1,6 +1,8 @@
 package system.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.NoResultException;
 
@@ -24,6 +26,20 @@ public class UserDao extends BaseDao<UsersEntity>{
     @Override
     public UsersEntity find(Integer id) {
         return super.find(id);
+    }
+
+    public Map<String, String> findUserDetails(Integer id) {
+        Map<String, String> userDetails = new HashMap<>();
+        long photoCount;
+        long tripCount;
+        String email;
+        email = this.find(id).getEmail();
+        tripCount = em.createNamedQuery("UsersEntity.findTripCount", Long.class).setParameter("user_id", this.find(id)).getSingleResult();
+        photoCount = em.createNamedQuery("UsersEntity.findPhotoCount", Long.class).setParameter("user_id", this.find(id)).getSingleResult();
+        userDetails.put("photoCount", Long.toString(photoCount));
+        userDetails.put("tripCount", Long.toString(tripCount));
+        userDetails.put("email", email);
+        return userDetails;
     }
 
     public UsersEntity findByEmail(String email) {

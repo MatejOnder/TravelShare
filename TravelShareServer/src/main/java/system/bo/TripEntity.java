@@ -2,8 +2,11 @@ package system.bo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
+import system.rest.utils.View;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -11,8 +14,9 @@ import java.util.Objects;
 @Table(name = "trip", schema = "public", catalog = "travelshare")
 @NamedQueries({
         @NamedQuery(name = "TripEntity.findCurrentByUserId", query = "SELECT t FROM TripEntity t WHERE t.usersByUserId = :user_id AND t.isActive = true"),
+        @NamedQuery(name = "TripEntity.findAllByUserId", query = "SELECT t FROM TripEntity t WHERE t.usersByUserId = :user_id AND t.isActive = false ORDER BY t.id DESC"),
 })
-public class TripEntity {
+public class TripEntity implements Serializable{
     private Integer id;
     private Double startlat;
     private Double startlon;
@@ -109,7 +113,9 @@ public class TripEntity {
     public Collection<PhotosEntity> getPhotosById() {
         return photosById;
     }
-
+    public void addPhotosById(PhotosEntity p) {
+        this.photosById.add(p);
+    }
     public void setPhotosById(Collection<PhotosEntity> photosById) {
         this.photosById = photosById;
     }

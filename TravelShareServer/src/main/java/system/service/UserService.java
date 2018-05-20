@@ -7,6 +7,7 @@ import system.bo.UsersEntity;
 import system.dao.UserDao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Service
@@ -27,6 +28,15 @@ public class UserService {
     @Transactional(readOnly = true)
     public UsersEntity find(int id) throws NoSuchElementException {
         UsersEntity user = userDao.find(id);
+        if(user == null){
+            throw  new NoSuchElementException();
+        }
+        return  user;
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, String> findUserDetails(int id) throws NoSuchElementException {
+        Map<String, String> user = userDao.findUserDetails(id);
         if(user == null){
             throw  new NoSuchElementException();
         }

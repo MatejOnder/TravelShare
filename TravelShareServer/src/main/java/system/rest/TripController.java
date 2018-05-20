@@ -1,6 +1,15 @@
 package system.rest;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,10 +24,12 @@ import system.service.TripService;
 import system.service.UserService;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
+import java.util.*;
 import java.security.MessageDigest;
-import java.util.NoSuchElementException;
 
 /**
  *
@@ -45,6 +56,36 @@ public class TripController{
         }
         catch (NoSuchElementException e){
             return new ResponseEntity<TripEntity>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/findAll/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TripEntity>> findAllFinishedUserTrip(@PathVariable("id") int id){
+        try {
+            List<TripEntity> Trips = TripService.findAllByUserId(id);
+            return new ResponseEntity<List<TripEntity>>(Trips, HttpStatus.OK);
+        }
+        catch (NoSuchElementException e){
+            return new ResponseEntity<List<TripEntity>>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/findAllByFriends/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TripUserMap>> findAllFinishedUserFriendsTrip(@PathVariable("id") int id){
+        try {
+            List<TripEntity> Trips = TripService.findAllByUserFriendsId(id);
+            ArrayList<TripUserMap> tripsUsers = new ArrayList<>();
+            for(TripEntity t: Trips)
+            {
+                TripUserMap tm = new TripUserMap();
+                tm.t = t;
+                tm.u = t.getUsersByUserId();
+                tripsUsers.add(tm);
+            }
+            return new ResponseEntity<List<TripUserMap>>(tripsUsers, HttpStatus.OK);
+        }
+        catch (NoSuchElementException e){
+            return new ResponseEntity<List<TripUserMap>>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -145,4 +186,11 @@ public class TripController{
             return new ResponseEntity<List<TripEntity>>(HttpStatus.NOT_FOUND);
         }
     }
+}
+
+class TripUserMap implements Serializable {
+    public TripEntity t;
+    public UsersEntity u;
+
+    public TripUserMap() {}
 }

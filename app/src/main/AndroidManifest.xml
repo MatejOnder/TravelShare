@@ -46,7 +46,7 @@
             android:name=".MainNavigation"
             android:label="@string/title_activity_main_navigation" />
         <activity
-            android:name=".Register"
+            android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme">
@@ -73,6 +73,33 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.travelshare.travelshare.MainNavigation" />
+        </activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".MainNavigation"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.travelshare.travelshare.MainNavigation" />
+        </activity>
+        <activity
+            android:name=".ChangePasswordActivity"
+            android:label="@string/title_activity_change_password"
+            android:parentActivityName=".ProfileActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.travelshare.travelshare.ProfileActivity" />
+        </activity>
+        <activity
+            android:name=".AddFriendActivity"
+            android:label="@string/title_activity_add_friend"
+            android:parentActivityName=".ProfileActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.travelshare.travelshare.ProfileActivity" />
         </activity>
     </application>
 

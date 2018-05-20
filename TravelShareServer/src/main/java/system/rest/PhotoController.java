@@ -33,6 +33,9 @@ public class PhotoController{
     private PhotoService PhotoService;
 
     @Autowired
+    private TripService tripService;
+
+    @Autowired
     private UserService userService;
 
     @JsonView(View.Brief.class)
@@ -101,6 +104,9 @@ public class PhotoController{
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createPhoto(@RequestBody PhotosEntity Photo){
         PhotoService.persist(Photo);
+        TripEntity t = tripService.find(Photo.getTripByTripId().getId());
+        t.addPhotosById(Photo);
+        tripService.update(t);
         return new ResponseEntity<PhotosEntity>(Photo, HttpStatus.OK);
     }
 

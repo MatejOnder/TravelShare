@@ -64,6 +64,7 @@ public class MapFragment extends Fragment {
     public void clearMap() {
         mMap.clear();
         markers.clear();
+        markerIdMap.clear();
         markerCount = 0;
     }
 
@@ -110,13 +111,13 @@ public class MapFragment extends Fragment {
     public void zoomOnBounds(LatLng point1, LatLng point2)
     {
         LatLngBounds llb = new LatLngBounds(point1, point2);
-        CameraUpdate cup = CameraUpdateFactory.newLatLngBounds(llb, 50);
+        CameraUpdate cup = CameraUpdateFactory.newLatLngBounds(llb, 150);
         mMap.animateCamera(cup);
     }
 
     public void zoomOnBounds(LatLngBounds llb)
     {
-        CameraUpdate cup = CameraUpdateFactory.newLatLngBounds(llb, 50);
+        CameraUpdate cup = CameraUpdateFactory.newLatLngBounds(llb, 150);
         mMap.animateCamera(cup);
     }
 

@@ -31,7 +31,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="194dp"
@@ -100,7 +100,7 @@
         android:id="@+id/NewsFeedLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/NewsFeedText"
@@ -121,6 +121,7 @@
             android:layout_marginBottom="55dp">
 
             <LinearLayout
+                android:id="@+id/LinearLayoutNewsFeed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
@@ -145,6 +146,7 @@
             android:textSize="36sp" />
 
         <ScrollView
+            android:id="@+id/MyTrips"
             android:layout_width="match_parent"
             android:layout_height="247dp"
             android:layout_alignParentBottom="true"
@@ -152,6 +154,7 @@
             android:layout_marginBottom="57dp">
 
             <LinearLayout
+                android:id="@+id/LinearLayoutMyTrips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />

@@ -11,7 +11,10 @@ import java.util.Objects;
 @Table(name = "users", schema = "public", catalog = "travelshare")
 @NamedQueries({
         @NamedQuery(name = "UsersEntity.findAll", query = "SELECT u FROM UsersEntity u"),
-        @NamedQuery(name = "UsersEntity.findByEmail", query = "SELECT u FROM UsersEntity u WHERE u.email = :email"),})
+        @NamedQuery(name = "UsersEntity.findByEmail", query = "SELECT u FROM UsersEntity u WHERE u.email = :email"),
+        @NamedQuery(name = "UsersEntity.findPhotoCount", query = "SELECT COUNT(p) FROM PhotosEntity p WHERE p.tripByTripId IN (SELECT t from TripEntity t WHERE t.usersByUserId = :user_id)"),
+        @NamedQuery(name = "UsersEntity.findTripCount", query = "SELECT COUNT(t) FROM TripEntity t WHERE t.usersByUserId = :user_id")
+})
 public class UsersEntity implements Serializable{
     private Integer id;
     private String email;
@@ -99,5 +102,10 @@ public class UsersEntity implements Serializable{
 
     public void setUsersFriendsById(Collection<UsersEntity> usersFriendsById) {
         this.usersFriendsById = usersFriendsById;
+    }
+
+    public void addToFriends(UsersEntity u)
+    {
+        this.usersFriendsById.add(u);
     }
 }
