@@ -342,7 +342,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
         }
     }
 
-    private void displayTripInList(final JSONObject j, LinearLayout scrollView)
+    private void displayTripInList(final JSONObject j, final LinearLayout scrollView)
     {
         fragment.clearMap();
         Geocoder geocoder;
@@ -361,6 +361,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
             @Override
             public void onClick(View v) {
                 displayTrip(j);
+                scrollView.setVisibility(View.GONE);
             }
         });
 
@@ -449,6 +450,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
         {
             ((LinearLayout) scrollView).removeAllViews();
         }
+        scrollView.setVisibility(View.VISIBLE);
         for(int i = 0; i < response.length(); i++)
         {
             try {
@@ -462,7 +464,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
         }
     }
 
-    private void displayTripInFriendList(final JSONObject j, LinearLayout scrollView)
+    private void displayTripInFriendList(final JSONObject j, final LinearLayout scrollView)
     {
         fragment.clearMap();
         Geocoder geocoder;
@@ -482,6 +484,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
             public void onClick(View v) {
                 try {
                     displayTrip(j.getJSONObject("t"));
+                    scrollView.setVisibility(View.GONE);
                 } catch (org.json.JSONException e)
                 {
                     e.printStackTrace();
@@ -557,6 +560,7 @@ public class MainNavigation extends AppCompatActivity  implements MapFragment.Cu
         {
             ((LinearLayout) scrollView).removeAllViews();
         }
+        scrollView.setVisibility(View.VISIBLE);
         for(int i = 0; i < response.length(); i++)
         {
             try {

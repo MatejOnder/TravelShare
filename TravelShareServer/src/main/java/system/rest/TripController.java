@@ -60,7 +60,15 @@ public class TripController{
     public ResponseEntity<List<TripEntity>> findAllFinishedUserTrip(@PathVariable("id") int id){
         try {
             List<TripEntity> Trips = TripService.findAllByUserId(id);
-            return new ResponseEntity<List<TripEntity>>(Trips, HttpStatus.OK);
+            List<TripEntity> nonEmptyTrips = new ArrayList<>();
+            for(TripEntity t: Trips)
+            {
+                if(t.getPhotosById().size() != 0)
+                {
+                    nonEmptyTrips.add(t);
+                }
+            }
+            return new ResponseEntity<List<TripEntity>>(nonEmptyTrips, HttpStatus.OK);
         }
         catch (NoSuchElementException e){
             return new ResponseEntity<List<TripEntity>>(HttpStatus.NOT_FOUND);
@@ -71,6 +79,13 @@ public class TripController{
     public ResponseEntity<List<TripUserMap>> findAllFinishedUserFriendsTrip(@PathVariable("id") int id){
         try {
             List<TripEntity> Trips = TripService.findAllByUserFriendsId(id);
+            for(TripEntity t: Trips)
+            {
+                if(t.getPhotosById().size() == 0)
+                {
+                    Trips.remove(t);
+                }
+            }
             ArrayList<TripUserMap> tripsUsers = new ArrayList<>();
             for(TripEntity t: Trips)
             {

@@ -59,6 +59,9 @@ public class UserController{
             if(u1.getUsersFriendsById().contains(u2))
             {
                 return new ResponseEntity(u2, HttpStatus.OK);
+            } else if(u1.getId() == u2.getId())
+            {
+                return new ResponseEntity(u1, HttpStatus.CONFLICT);
             }
             u1.addToFriends(u2);
             userService.update(u1);

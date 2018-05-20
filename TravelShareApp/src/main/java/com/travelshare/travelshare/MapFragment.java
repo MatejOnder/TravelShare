@@ -110,8 +110,10 @@ public class MapFragment extends Fragment {
 
     public void zoomOnBounds(LatLng point1, LatLng point2)
     {
-        LatLngBounds llb = new LatLngBounds(point1, point2);
-        CameraUpdate cup = CameraUpdateFactory.newLatLngBounds(llb, 150);
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(point1);
+        builder.include(point2);
+        CameraUpdate cup = CameraUpdateFactory.newLatLngBounds(builder.build(), 150);
         mMap.animateCamera(cup);
     }
 
@@ -152,15 +154,17 @@ public class MapFragment extends Fragment {
             Marker m1 = markers.get(0);
             Marker m2 = markers.get(1);
 
-            LatLngBounds llb = new LatLngBounds(m1.getPosition(), m2.getPosition());
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(m1.getPosition());
+            builder.include(m2.getPosition());
 
             for(int i = 2; i < markers.size(); i++)
             {
                 Marker m = markers.get(i);
-                llb = llb.including(m.getPosition());
+                builder.include(m.getPosition());
             }
 
-            zoomOnBounds(llb);
+            zoomOnBounds(builder.build());
         }
     }
 
